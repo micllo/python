@@ -5,7 +5,7 @@ celery==3.1.25
 certifi==2018.10.15
 chardet==3.0.4
 Click==7.0
-Flask==0.12
+Flask==1.0
 futures==3.2.0
 get==1.0.3
 idna==2.7
