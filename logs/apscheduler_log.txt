@@ -1,0 +1,29 @@
+2020-02-14 23:14:57 base.py[line:440] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2020-02-14 23:14:57 base.py[line:440] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2020-02-14 23:14:57 base.py[line:440] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2020-02-14 23:14:57 base.py[line:440] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2020-02-14 23:14:57 base.py[line:440] INFO Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2020-02-14 23:14:57 base.py[line:881] INFO Added job "aps_test" to job store "default"
+2020-02-14 23:14:57 base.py[line:881] INFO Added job "aps_error" to job store "default"
+2020-02-14 23:14:57 base.py[line:881] INFO Added job "aps_remove" to job store "default"
+2020-02-14 23:14:57 base.py[line:881] INFO Added job "aps_pause" to job store "default"
+2020-02-14 23:14:57 base.py[line:881] INFO Added job "aps_resume" to job store "default"
+2020-02-14 23:14:57 base.py[line:166] INFO Scheduler started
+2020-02-14 23:15:00 base.py[line:123] INFO Running job "aps_test (trigger: cron[second='*/5'], next run at: 2020-02-14 23:15:00 CST)" (scheduled at 2020-02-14 23:15:00+08:00)
+2020-02-14 23:15:00 base.py[line:144] INFO Job "aps_test (trigger: cron[second='*/5'], next run at: 2020-02-14 23:15:05 CST)" executed successfully
+2020-02-14 23:15:00 base.py[line:123] INFO Running job "aps_error (trigger: interval[0:00:03], next run at: 2020-02-14 23:15:00 CST)" (scheduled at 2020-02-14 23:15:00.077782+08:00)
+2020-02-14 23:15:00 base.py[line:131] ERROR Job "aps_error (trigger: interval[0:00:03], next run at: 2020-02-14 23:15:03 CST)" raised an exception
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/apscheduler/executors/base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/Users/micllo/Documents/works/GitLab/python/learn/apscheduler_sample.py", line 20, in aps_error
+    print(1/0)
+ZeroDivisionError: division by zero
+2020-02-14 23:15:03 base.py[line:123] INFO Running job "aps_error (trigger: interval[0:00:03], next run at: 2020-02-14 23:15:03 CST)" (scheduled at 2020-02-14 23:15:03.077782+08:00)
+2020-02-14 23:15:03 base.py[line:131] ERROR Job "aps_error (trigger: interval[0:00:03], next run at: 2020-02-14 23:15:06 CST)" raised an exception
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/apscheduler/executors/base.py", line 125, in run_job
+    retval = job.func(*job.args, **job.kwargs)
+  File "/Users/micllo/Documents/works/GitLab/python/learn/apscheduler_sample.py", line 20, in aps_error
+    print(1/0)
+ZeroDivisionError: division by zero

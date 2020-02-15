@@ -1,0 +1,64 @@
+2020-02-02 21:49:28 tools.py INFO 执行搜索功能
+2020-02-02 21:50:51 tools.py INFO 执行搜索功能
+2020-02-02 21:53:23 tools.py INFO 执行搜索功能
+2020-02-02 21:53:37 tools.py INFO 搜索结束
+
+2020-02-02 22:18:42 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:18:47 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:19:01 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:19:04 tools.py INFO 操作步骤：4.跳过登录（登录页）
+2020-02-02 22:20:18 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:20:25 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:20:43 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:20:48 tools.py INFO 操作步骤：4.跳过登录（登录页）
+
+2020-02-02 22:23:18 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:23:21 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:23:35 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:23:40 tools.py INFO 操作步骤：4.跳过登录（登录页）
+
+
+2020-02-02 22:24:30 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:24:35 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:24:49 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:24:54 tools.py INFO 操作步骤：4.跳过登录（登录页）
+2020-02-02 22:24:57 tools.py INFO 用例二：1111111
+2020-02-02 22:24:57 connectionpool.py WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x108403240>: Failed to establish a new connection: [Errno 61] Connection refused',)': /session/afbd2c8bcfc20450eed1466319c4a77e/url
+2020-02-02 22:24:57 connectionpool.py WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10855a128>: Failed to establish a new connection: [Errno 61] Connection refused',)': /session/afbd2c8bcfc20450eed1466319c4a77e/url
+2020-02-02 22:24:57 connectionpool.py WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10855ab00>: Failed to establish a new connection: [Errno 61] Connection refused',)': /session/afbd2c8bcfc20450eed1466319c4a77e/url
+2020-02-02 22:24:57 connectionpool.py WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10855a160>: Failed to establish a new connection: [Errno 61] Connection refused',)': /session/afbd2c8bcfc20450eed1466319c4a77e
+2020-02-02 22:24:57 connectionpool.py WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10855aba8>: Failed to establish a new connection: [Errno 61] Connection refused',)': /session/afbd2c8bcfc20450eed1466319c4a77e
+2020-02-02 22:24:57 connectionpool.py WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x108403e10>: Failed to establish a new connection: [Errno 61] Connection refused',)': /session/afbd2c8bcfc20450eed1466319c4a77e
+
+
+
+2020-02-02 22:26:58 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:27:02 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:27:16 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:27:21 tools.py INFO 操作步骤：4.跳过登录（登录页）
+2020-02-02 22:27:31 tools.py INFO 用例二：1111111
+2020-02-02 22:27:32 tools.py INFO 用例二：2222222
+2020-02-02 22:28:44 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:28:49 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:29:03 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:29:08 tools.py INFO 操作步骤：4.跳过登录（登录页）
+2020-02-02 22:29:11 tools.py INFO 用例二：1111111
+2020-02-02 22:29:11 tools.py INFO 用例二：2222222
+2020-02-02 22:30:03 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:30:06 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:30:20 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:30:25 tools.py INFO 操作步骤：4.跳过登录（登录页）
+2020-02-02 22:30:28 tools.py INFO 用例二：1111111
+2020-02-02 22:30:28 tools.py INFO 用例二：2222222
+2020-02-02 22:44:28 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:44:32 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:44:46 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:44:51 tools.py INFO 操作步骤：4.跳过登录（登录页）
+2020-02-02 22:44:56 tools.py INFO 用例二：1111111
+2020-02-02 22:45:01 tools.py INFO 用例二：2222222
+2020-02-02 22:49:44 tools.py INFO 操作步骤：1.打开网址
+2020-02-02 22:49:48 tools.py INFO 操作步骤：2.搜索火车票（首页）
+2020-02-02 22:50:03 tools.py INFO 操作步骤：3.选择火车票（预订页）
+2020-02-02 22:50:08 tools.py INFO 操作步骤：4.跳过登录（登录页）
+2020-02-02 22:50:14 tools.py INFO 用例二：1111111
+2020-02-02 22:50:19 tools.py INFO 用例二：2222222

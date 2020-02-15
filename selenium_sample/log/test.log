@@ -1,0 +1,8 @@
+2020-01-02 10:26:09 - ERROR - I am a error level log.
+2020-01-02 10:26:09 - CRITICAL - I am a critical level log.
+2020-01-02 10:26:09 - ERROR - ===== I am a error level log.
+2020-01-02 10:26:09 - CRITICAL - ===== I am a critical level log.
+2020-01-02 20:24:32 - ERROR - I am a error level log.
+2020-01-02 20:24:32 - CRITICAL - I am a critical level log.
+2020-01-02 20:24:32 - ERROR - ===== I am a error level log.
+2020-01-02 20:24:32 - CRITICAL - ===== I am a critical level log.

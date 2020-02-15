@@ -1,0 +1,2 @@
+# 执行该语句：监视 vassal 目录下的 ini 配置文件
+uwsgi --emperor /Users/micllo/Documents/works/GitLab/python/vassal --daemonize //Users/micllo/Documents/works/GitLab/python/vassal/emperor.log

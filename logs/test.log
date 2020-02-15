@@ -1,0 +1,17 @@
+[2018-11-05 11:13:51,466: INFO/MainProcess] Connected to amqp://micllo:**@127.0.0.1:5672/fxc
+[2018-11-05 11:13:51,478: INFO/MainProcess] mingle: searching for neighbors
+[2018-11-05 11:13:52,502: INFO/MainProcess] mingle: all alone
+[2018-11-05 11:13:52,516: WARNING/MainProcess] celery@fxcdeMacBook-Pro-3.local ready.
+[2018-11-05 11:15:14,353: INFO/MainProcess] Received task: flask_celery.tasks.analyze_id_card_task[af409572-e7aa-4b33-9167-f886ebe2c8c1]
+[2018-11-05 11:15:24,505: INFO/MainProcess] Task flask_celery.tasks.analyze_id_card_task[af409572-e7aa-4b33-9167-f886ebe2c8c1] succeeded in 10.148958327s: u'{"province": "\u4e0a\u6d77\u5e02", "city": "\u5e02\u8f96\u533a", "region": "\u5357\u5e02\u533a", "sex": "\u7537",...
+[2018-11-05 11:16:55,583: INFO/MainProcess] Connected to amqp://micllo:**@127.0.0.1:5672/fxc
+[2018-11-05 11:16:55,594: INFO/MainProcess] mingle: searching for neighbors
+[2018-11-05 11:16:56,622: INFO/MainProcess] mingle: all alone
+[2018-11-05 11:16:56,647: WARNING/MainProcess] celery@fxcdeMacBook-Pro-3.local ready.
+[2018-11-05 11:17:50,835: WARNING/MainProcess] Exception
+[2018-11-05 11:17:50,837: WARNING/MainProcess] KeyError
+[2018-11-05 11:17:50,838: WARNING/MainProcess] :
+[2018-11-05 11:17:50,838: WARNING/MainProcess] KeyError(140735702717312,)
+[2018-11-05 11:17:50,838: WARNING/MainProcess] in
+[2018-11-05 11:17:50,838: WARNING/MainProcess] <module 'threading' from '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/threading.pyc'>
+[2018-11-05 11:17:50,839: WARNING/MainProcess] ignored
