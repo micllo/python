@@ -19,28 +19,28 @@ def login():
 # 接受URL参数类型：unicode
 @app.route('/<params>')
 def one(params):
-    print type(params)
+    print(type(params))
     return 'URL Parmas : ' + params
 
 
 # 接受URL参数类型：int
 @app.route('/<int:age>/')
 def two(age):
-    print type(age)
+    print(type(age))
     return 'int params'
 
 
 # 只允许POST请求
 @app.route('/<float:price>/', methods=['post'])
 def get_request(price):
-    print type(price)
+    print(type(price))
     return '只允许POST请求: ' + str(price)
 
 
 # 通过别名反向生成url参数
 @app.route('/<path:url>/', endpoint='baidu', methods=['get', 'post'])
 def three(url):
-    print url_for('baidu', url=url)
+    print(url_for('baidu', url=url))
     return '通过别名反向生成url参数'
 
 

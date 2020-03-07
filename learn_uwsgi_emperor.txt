@@ -1,2 +1,5 @@
-# 执行该语句：监视 vassal 目录下的 ini 配置文件
-uwsgi --emperor /Users/micllo/Documents/works/GitLab/python/vassal --daemonize //Users/micllo/Documents/works/GitLab/python/vassal/emperor.log
+# 执行该语句：
+# 1.批量启动 vassals 目录下的 uwsgi 项目
+# 2.监视 vassals 目录下的 ini 配置文件
+# 3.备注 单个启动命令：uwsgi --ini /Users/micllo/Documents/works/GitHub/python/vassals/learn_uwsgi_8081.ini
+uwsgi --master --emperor /Users/micllo/Documents/works/GitHub/python/vassals --die-on-term --uid centos --gid centos --logto /Users/micllo/Documents/works/GitHub/python/vassals/emperor.log
