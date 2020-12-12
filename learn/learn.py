@@ -18,22 +18,22 @@ if __name__ == '__main__':
     # reverse=True 降序排列
     list = ["2018.10.01 19:53:37", "2018.10.02 10:50:30", "2018.10.02 09:00:00"]
     list.sort(reverse=True)
-    print list
+    print(list)
 
     # 按照第二维list的 第二个字段进行排序
     list2 = [["aaa", "2018.10.01 19:53:37"], ["bbb", "2018.10.02 10:50:30"], ["ccc", "2018.10.02 09:00:00"]]
     list2.sort(key=lambda x: x[1], reverse=True)
-    print list2
+    print(list2)
 
     # 按照第二维list的 第二个list中的第二个字段进行排序
     list3 = [[["aaa", "2018.10.01 19:53:37"], ["aaa", "2018.10.01 18:53:37"]], [["bbb", "2018.10.02 10:50:30"], ["bbb", "2018.10.02 10:40:00"]], [["ccc", "2018.10.02 09:00:00"], ["ccc", "2018.10.02 08:00:00"]]]
     list3.sort(key=lambda x: x[1][1], reverse=True)
-    print list3
+    print(list3)
 
     # 按照第二维list的 第一个list中的第二个字段进行排序
     list4 = [[["aaa", "2018.10.01 19:53:37"], ["aaa", "2018.10.01 18:53:37"]], [["bbb", "2018.10.02 10:50:30"], ["bbb", "2018.10.02 07:40:00"]], [["ccc", "2018.10.02 09:00:00"], ["ccc", "2018.10.02 08:00:00"]]]
     list4.sort(key=lambda x: x[0][1], reverse=True)
-    print list4
+    print(list4)
 
 
     """
@@ -41,6 +41,6 @@ if __name__ == '__main__':
     """
     str1 = "2018.10.01 19:53:37"
     timeArray = time.strptime(str1, "%Y.%m.%d %H:%M:%S")
-    print timeArray
+    print(timeArray)
     timeStamp = int(time.mktime(timeArray))
-    print timeStamp
+    print(timeStamp)

@@ -11,12 +11,12 @@ def first(func):
     # @wraps(func)  # 不改变使用装饰器原有函数的结构(如__name__, __doc__)
     def wrapper(*args, **kwargs):
         """__doc__ : first"""
-        print "第一层装饰器 start ...."
+        print("第一层装饰器 start ....")
         start_time = time.time()
         result = func(*args, **kwargs)
         end_time = time.time()
-        print "运行时间为%s" % (end_time - start_time)
-        print "第一层装饰器 end ...."
+        print("运行时间为%s" % (end_time - start_time))
+        print("第一层装饰器 end ....")
         return result
     return wrapper
 
@@ -25,9 +25,9 @@ def second(func):
     # @wraps(func)  # 不改变使用装饰器原有函数的结构(如__name__, __doc__)
     def wrapper(*args, **kwargs):
         """__doc__ : second"""
-        print "第二层装饰器 start 。。。。"
+        print("第二层装饰器 start 。。。。")
         result = func(*args, **kwargs)
-        print "第二层装饰器 end 。。。。"
+        print("第二层装饰器 end 。。。。")
         return result
     return wrapper
 
@@ -37,11 +37,11 @@ def second(func):
 def add(x, y):
     """__doc__ : add"""
     time.sleep(random.randrange(1, 3))
-    print "x + y =  %s" % (x + y)
+    print("x + y =  %s" % (x + y))
     return "sum :" + str(x + y), "second_param"
 
 
-# print add(4, 5)  # 调用函数装饰器
+# res = add(4, 5)  # 调用函数装饰器
 # print "=============="
 # print res
 # print add.__name__
@@ -87,7 +87,7 @@ class Foo2(object):
 class Test(object):
     @Foo2()  # bar = Foo2()(bar)
     def bar(self, x, y):
-        print "sum : " + str(x + y)
+        print("sum : " + str(x + y))
         return x + y
 
 
@@ -107,7 +107,7 @@ def log_slow_call(func=None, threshold=1):
             result = func(*args, **kwargs)
             end_ts = time.time()
             seconds = end_ts - start_ts
-            print seconds
+            print(seconds)
             if seconds > threshold:
                 print('slow call: {name} in {seconds}s'.format(name=func.func_name, seconds=seconds))
             return result
@@ -128,14 +128,14 @@ def sleep_seconds(seconds):
 
 
 if __name__ == "__main__":
-    res = add(4, 5)  # 调用函数装饰器
-    print "=============="
-    print res
-    print add.__name__
-    print add.__doc__
+    # res = add(4, 5)  # 调用函数装饰器
+    # print("==============")
+    # print(res)
+    # print(add.__name__)
+    # print(add.__doc__)
 
     # bar()  # 函数调用类装饰器
-    # print Test().bar(3, 8)  # 类函数调用类装饰器
-    # print add.__name__, add.__doc__
+    # print(Test().bar(3, 8))  # 类函数调用类装饰器
+    # print(add.__name__, add.__doc__)
 
-    # print sleep_seconds(1)
+    print(sleep_seconds(3))

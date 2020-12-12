@@ -12,11 +12,11 @@ def fun():
 a = fun()
 # next()表示 第一次迭代到yield位置，并返回yield后面参数的值，此时程序停止了不再往下执行 (注意：并不会将i的值赋值给x)
 re = a.next()
-print re
+print(re)
 # send(30)表示 从上次yield位置介入，并将参数30作为'yield i'表达式的值，第二次迭代到yield位置，并返回yield后面参数的值
 x = a.send(30)
-print x
-print " "
+print(x)
+print(" ")
 
 
 """ 为什么要使用yield """
@@ -32,7 +32,7 @@ def foo(num):
 
 # for循环会触发next()方法
 for n in foo(0):
-    print n
+    print(n)
 
 
 
