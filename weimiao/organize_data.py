@@ -154,10 +154,11 @@ class OrganizeData:
             [ 将'合并报表'中的数据导入'分析报表'的不同工作表中 ]
             1.导入'资产质量分析'工作表
         """
-        self.import_sheet_with_assetQuality()
+        self.import_balance_sheet_1()
+        self.import_balance_sheet_2()
 
-    def import_sheet_with_assetQuality(self):
-        """ 导入'资产质量分析'工作表 """
+    def import_balance_sheet_1(self):
+        """ 导入'资产负债表分析1'工作表 """
 
         # 整理需要导入的字段 {字段名:行数}
         field_dict = {"货币资金": 5, "交易性金融资产": 6, "应收票据": 9, "应收账款": 10, "应收款项融资": 11, "预付款项": 12,
@@ -166,13 +167,35 @@ class OrganizeData:
 
         # 从'合并报表字典'中找到相应的数据，根据对应的行数，依次填入相应的列中
         wb = openpyxl.load_workbook(self.analysisFile)
-        aq_sheet = wb.get_sheet_by_name('14.资产质量分析')
+        balance_sheet_1 = wb.get_sheet_by_name('14.资产负债表分析1')
 
         # 遍历需要的字段和行数
         for field, row_num in field_dict.items():
             # 找到对应的数据列表 依次填入相应的列中
             for col_i, col_value in enumerate(self.reportForm_dict[field]):
-                aq_sheet.cell(row=row_num, column=col_i + 3, value=col_value)  # 修改单元格数据
+                balance_sheet_1.cell(row=row_num, column=col_i + 3, value=col_value)  # 修改单元格数据
+        wb.save(self.analysisFile)  # 将修改完的数据保存入Excel
+
+    def import_balance_sheet_2(self):
+        """ 导入'资产负债表分析2'工作表 """
+
+        # 整理需要导入的字段 {字段名:行数}
+        field_dict = {"资产总计": 5, "负债合计": 11, "货币资金": 18, "交易性金融资产": 21, "短期借款": 23, "长期借款": 24,
+                      "一年内到期的非流动负债": 25, "应付债券": 26, "长期应付款": 27, "应付票据": 34, "应付账款": 35, "预收款项": 36,
+                      "合同负债": 37, "应收票据": 39, "应收款项融资": 40, "应收账款": 41, "合同资产": 42, "预付款项": 43,
+                      "固定资产": 58, "在建工程": 59, "工程物资": 60, "以公允价值计量且其变动计入当期损益的金融资产": 68,
+                      "可供出售金融资产": 69, "其他非流动金融资产": 70, "其他权益工具投资": 71, "其他债权投资": 72, "债权投资": 73,
+                      "持有至到期投资": 74, "长期股权投资": 75, "投资性房地产": 76, "存货": 84, "商誉": 91}
+
+        # 从'合并报表字典'中找到相应的数据，根据对应的行数，依次填入相应的列中
+        wb = openpyxl.load_workbook(self.analysisFile)
+        balance_sheet_2 = wb.get_sheet_by_name('15.资产负债表分析2')
+
+        # 遍历需要的字段和行数
+        for field, row_num in field_dict.items():
+            # 找到对应的数据列表 依次填入相应的列中
+            for col_i, col_value in enumerate(self.reportForm_dict[field]):
+                balance_sheet_2.cell(row=row_num, column=col_i + 3, value=col_value)  # 修改单元格数据
         wb.save(self.analysisFile)  # 将修改完的数据保存入Excel
 
 
