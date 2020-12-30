@@ -96,6 +96,8 @@ class OrganizeData:
             获取'基础数据字典'
             1.获取前2列or3列内容 {字段名:[当期数据]} or {字段名:[当期数据,上期数据]}
             2.将缺少的'合并报表字段'补充完整
+
+            注：abs() 将 负数 转成 正数
         """
         data_dict = {}
         if filename:
@@ -105,7 +107,7 @@ class OrganizeData:
                 field = sheet.row_values(row_num)[0].strip()
                 amount1 = sheet.row_values(row_num)[1]
                 amount2 = sheet.row_values(row_num)[2]
-                data_dict[field] = col == 2 and [amount1, amount2] or [amount1]
+                data_dict[field] = col == 2 and [abs(amount1), abs(amount2)] or [abs(amount1)]
             # 2.将缺少的'合并报告字段'补充完整
             for field in self.reportForm_list:
                 if field not in data_dict.keys():
@@ -115,6 +117,9 @@ class OrganizeData:
     def capture_reportForm_data(self):
         """
             将'基础数据字典1|2|3'整合入'合并报表字典' -> reportForm_dict
+            < 利润表中的特殊处理 >
+            （1）原因："归属于母公司所有者的净利润"、"归属于母公司股东的净利润" 这是同一个科目，但是每个公司报表的叫法不同
+            （2）解决：将这两个科目赋予相同的值
         """
         for field in self.reportForm_list:
             self.reportForm_dict[field] = []
@@ -124,11 +129,18 @@ class OrganizeData:
                 if self.basicFile3:
                     self.reportForm_dict[field] += self.basic3_dict[field]
 
+        # 利润表中的特殊处理
+        if list(self.reportForm_dict["归属于母公司所有者的净利润"])[0] == 0.0:
+            self.reportForm_dict["归属于母公司所有者的净利润"] = self.reportForm_dict["归属于母公司股东的净利润"]
+        else:
+            self.reportForm_dict["归属于母公司股东的净利润"] = self.reportForm_dict["归属于母公司所有者的净利润"]
+
     def import_reportFormFile(self):
         """
             将'合并报表字典'导入'合并报告'
             1.遍历[合并报表]的行，判断A列中的字段名是否存在于[合并报表字典]的key中
             2.将匹配成功的字段值对应的'数值列表'赋值给后续的列字段（B列、C列、D列、E列、F列）
+
         """
         wb = openpyxl.load_workbook(self.reportFormFile)
         sheet = wb[wb.active.title]
@@ -152,10 +164,32 @@ class OrganizeData:
     def import_analysisFile(self):
         """
             [ 将'合并报表'中的数据导入'分析报表'的不同工作表中 ]
-            1.导入'资产质量分析'工作表
+            1.导入'资产负债表分析1'工作表
+            2.导入'资产负债表分析2'工作表
+            3.导入'财务造假分析'工作表
+            4.导入'利润表分析'工作表
         """
         self.import_balance_sheet_1()
         self.import_balance_sheet_2()
+        self.import_balance_sheet_3()
+        self.import_profit_sheet()
+
+    def save_sheet(self, sheet_name, import_field_dict):
+        """
+            导入工作表（公共模块）
+            :param sheet_name:  工作表名称
+            :param import_field_dict: 需要导入的字段字典
+            :return:
+        """
+        # 从'合并报表字典'中找到相应的数据，根据对应的行数，依次填入相应的列中
+        wb = openpyxl.load_workbook(self.analysisFile)
+        sheet = wb.get_sheet_by_name(sheet_name)
+        # 遍历需要的字段和行数
+        for field, row_num in import_field_dict.items():
+            # 找到对应的数据列表 依次填入相应的列中
+            for col_i, col_value in enumerate(self.reportForm_dict[field]):
+                sheet.cell(row=row_num, column=col_i + 3, value=col_value)  # 修改单元格数据
+        wb.save(self.analysisFile)  # 将修改完的数据保存入Excel
 
     def import_balance_sheet_1(self):
         """ 导入'资产负债表分析1'工作表 """
@@ -164,39 +198,35 @@ class OrganizeData:
         field_dict = {"货币资金": 5, "交易性金融资产": 6, "应收票据": 9, "应收账款": 10, "应收款项融资": 11, "预付款项": 12,
                       "存货": 13, "合同资产": 14, "长期应收款": 15, "固定资产": 16, "在建工程": 17, "使用权资产": 18,
                       "无形资产": 19, "开发支出": 20, "长期待摊费用": 21, "递延所得税资产": 22, "资产总计": 25}
-
-        # 从'合并报表字典'中找到相应的数据，根据对应的行数，依次填入相应的列中
-        wb = openpyxl.load_workbook(self.analysisFile)
-        balance_sheet_1 = wb.get_sheet_by_name('14.资产负债表分析1')
-
-        # 遍历需要的字段和行数
-        for field, row_num in field_dict.items():
-            # 找到对应的数据列表 依次填入相应的列中
-            for col_i, col_value in enumerate(self.reportForm_dict[field]):
-                balance_sheet_1.cell(row=row_num, column=col_i + 3, value=col_value)  # 修改单元格数据
-        wb.save(self.analysisFile)  # 将修改完的数据保存入Excel
+        self.save_sheet(sheet_name='14.资产负债表分析1', import_field_dict=field_dict)
 
     def import_balance_sheet_2(self):
         """ 导入'资产负债表分析2'工作表 """
 
         # 整理需要导入的字段 {字段名:行数}
-        field_dict = {"资产总计": 5, "负债合计": 11, "货币资金": 18, "交易性金融资产": 21, "短期借款": 23, "长期借款": 24,
-                      "一年内到期的非流动负债": 25, "应付债券": 26, "长期应付款": 27, "应付票据": 34, "应付账款": 35, "预收款项": 36,
-                      "合同负债": 37, "应收票据": 39, "应收款项融资": 40, "应收账款": 41, "合同资产": 42, "预付款项": 43,
-                      "固定资产": 58, "在建工程": 59, "工程物资": 60, "以公允价值计量且其变动计入当期损益的金融资产": 68,
-                      "可供出售金融资产": 69, "其他非流动金融资产": 70, "其他权益工具投资": 71, "其他债权投资": 72, "债权投资": 73,
-                      "持有至到期投资": 74, "长期股权投资": 75, "投资性房地产": 76, "存货": 84, "商誉": 91}
+        field_dict = {"资产总计": 5, "负债合计": 11, "货币资金": 18, "交易性金融资产": 19, "短期借款": 23, "长期借款": 24,
+                      "一年内到期的非流动负债": 25, "应付债券": 26, "长期应付款": 27, "应收账款": 34, "合同资产": 35,
+                      "固定资产": 42, "在建工程": 43, "工程物资": 44, "以公允价值计量且其变动计入当期损益的金融资产": 52,
+                      "可供出售金融资产": 53, "其他非流动金融资产": 54, "其他权益工具投资": 55, "其他债权投资": 56, "债权投资": 57,
+                      "持有至到期投资": 58, "长期股权投资": 59, "投资性房地产": 60, "商誉": 68, "应付票据": 75, "应付账款": 76,
+                      "预收款项": 77, "合同负债": 78, "应收票据": 80, "应收款项融资": 81, "预付款项": 84, "存货": 98, }
+        self.save_sheet(sheet_name='15.资产负债表分析2', import_field_dict=field_dict)
 
-        # 从'合并报表字典'中找到相应的数据，根据对应的行数，依次填入相应的列中
-        wb = openpyxl.load_workbook(self.analysisFile)
-        balance_sheet_2 = wb.get_sheet_by_name('15.资产负债表分析2')
+    def import_balance_sheet_3(self):
+        """ 导入'财务造假分析'工作表 """
 
-        # 遍历需要的字段和行数
-        for field, row_num in field_dict.items():
-            # 找到对应的数据列表 依次填入相应的列中
-            for col_i, col_value in enumerate(self.reportForm_dict[field]):
-                balance_sheet_2.cell(row=row_num, column=col_i + 3, value=col_value)  # 修改单元格数据
-        wb.save(self.analysisFile)  # 将修改完的数据保存入Excel
+        # 整理需要导入的字段 {字段名:行数}
+        field_dict = {"货币资金": 5, "净利润": 9, "应收账款": 16, "资产总计": 17, "预付款项": 23, "其他应收款": 24, "在建工程": 32}
+        self.save_sheet(sheet_name='16.财务造假分析', import_field_dict=field_dict)
+
+    def import_profit_sheet(self):
+        """ 导入'利润表分析'工作表 """
+
+        # 整理需要导入的字段 {字段名:行数}
+        field_dict = {"营业收入": 5, "营业成本": 12, "销售费用": 20, "管理费用": 21, "研发费用": 22, "财务费用": 23,
+                      "税金及附加": 46, "营业利润": 47, "营业外收入": 55, "营业外支出": 56, "利润总额": 58,
+                      "归属于母公司股东的净利润": 64}
+        self.save_sheet(sheet_name='17.利润表分析', import_field_dict=field_dict)
 
 
 if __name__ == '__main__':
