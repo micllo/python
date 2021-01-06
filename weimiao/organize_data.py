@@ -53,6 +53,7 @@ class OrganizeData:
             [ 将所有'基础数据文件'整合入'合并报告'中 ]
             1.获取'合并报表'中需要的字段列表 -> reportForm_list
             2.获取'基础数据文件1|2|3'中的数据内容'基础数据字典1|2|3' -> basic1_dict1|2|3
+                < 注意：这 里 将 所 有 的 负 数 转 换 成 正 数 >
             3.将'基础数据字典1|2|3'整合入'合并报表字典' -> reportForm_dict
             4.将'合并报表字典'导入'合并报表'
         """
@@ -95,10 +96,15 @@ class OrganizeData:
 
             获取'基础数据字典'
             1.获取前2列or3列内容 {字段名:[当期数据]} or {字段名:[当期数据,上期数据]}
-            2.将缺少的'合并报表字段'补充完整
+            2.将特殊的科目保留正负值，其余全部转成正数（针对'利润表、现金流量表'中相应的科目需要保留负数）
+            3.将缺少的'合并报表字段'补充完整
 
             注：abs() 将 负数 转成 正数
         """
+        cash_flow_field_list = ["经营活动产生的现金流量净额", "投资活动产生的现金流量净额", "筹资活动产生的现金流量净额",
+                                "销售商品、提供劳务收到的现金", "购建固定资产、无形资产和其他长期资产支付的现金", "财务费用",
+                                "分配股利、利润或偿付利息支付的现金", "现金及现金等价物净增加额", "期末现金及现金等价物余额"]
+
         data_dict = {}
         if filename:
             # 1.获取前2列or3列内容
@@ -107,8 +113,17 @@ class OrganizeData:
                 field = sheet.row_values(row_num)[0].strip()
                 amount1 = sheet.row_values(row_num)[1]
                 amount2 = sheet.row_values(row_num)[2]
-                data_dict[field] = col == 2 and [abs(amount1), abs(amount2)] or [abs(amount1)]
-            # 2.将缺少的'合并报告字段'补充完整
+                # 目的：出错时的提示
+                if isinstance(amount1, str) or isinstance(amount2, str):
+                    print("字段 '" + field + "' 对应金额的类型是字符串 -> " + str(amount1) + " 、 " + str(amount2))
+
+                # 2.将特殊的科目保留正负值（针对'利润表、现金流量表'中相应的科目）
+                if field in cash_flow_field_list:
+                    data_dict[field] = col == 2 and [amount1, amount2] or [amount1]
+                else:
+                    data_dict[field] = col == 2 and [abs(amount1), abs(amount2)] or [abs(amount1)]
+
+            # 3.将缺少的'合并报告字段'补充完整
             for field in self.reportForm_list:
                 if field not in data_dict.keys():
                     data_dict[field] = col == 2 and [0.0, 0.0] or [0.0]
@@ -120,6 +135,9 @@ class OrganizeData:
             < 利润表中的特殊处理 >
             （1）原因："归属于母公司所有者的净利润"、"归属于母公司股东的净利润" 这是同一个科目，但是每个公司报表的叫法不同
             （2）解决：将这两个科目赋予相同的值
+            （3）举例：归母所有者 -> [1.1, 1.2, 1.3, 1.4, 0.0]
+                      归母股东  -> [0.0, 0.0, 0.0, 0.0, 1.5]
+                        合并   -> [1.1, 1.2, 1.3, 1.4, 1.5]
         """
         for field in self.reportForm_list:
             self.reportForm_dict[field] = []
@@ -130,10 +148,12 @@ class OrganizeData:
                     self.reportForm_dict[field] += self.basic3_dict[field]
 
         # 利润表中的特殊处理
-        if list(self.reportForm_dict["归属于母公司所有者的净利润"])[0] == 0.0:
-            self.reportForm_dict["归属于母公司所有者的净利润"] = self.reportForm_dict["归属于母公司股东的净利润"]
-        else:
-            self.reportForm_dict["归属于母公司股东的净利润"] = self.reportForm_dict["归属于母公司所有者的净利润"]
+        # cc = [x + y for x, y in zip(aa, bb)]
+        list1 = list(self.reportForm_dict["归属于母公司所有者的净利润"])
+        list2 = list(self.reportForm_dict["归属于母公司股东的净利润"])
+        list3 = [x + y for x, y in zip(list1, list2)]
+        self.reportForm_dict["归属于母公司所有者的净利润"] = list3
+        self.reportForm_dict["归属于母公司股东的净利润"] = list3
 
     def import_reportFormFile(self):
         """
@@ -168,11 +188,13 @@ class OrganizeData:
             2.导入'资产负债表分析2'工作表
             3.导入'财务造假分析'工作表
             4.导入'利润表分析'工作表
+            5.导入'现金流量表分析'工作表
         """
         self.import_balance_sheet_1()
         self.import_balance_sheet_2()
         self.import_balance_sheet_3()
         self.import_profit_sheet()
+        self.import_cashflow_sheet()
 
     def save_sheet(self, sheet_name, import_field_dict):
         """
@@ -227,6 +249,16 @@ class OrganizeData:
                       "税金及附加": 46, "营业利润": 47, "营业外收入": 55, "营业外支出": 56, "利润总额": 58,
                       "归属于母公司股东的净利润": 64}
         self.save_sheet(sheet_name='17.利润表分析', import_field_dict=field_dict)
+
+    def import_cashflow_sheet(self):
+        """ 导入'现金流量表分析'工作表 """
+
+        # 整理需要导入的字段 {字段名:行数}
+        field_dict = {"销售商品、提供劳务收到的现金": 5, "营业收入": 6, "净利润": 13, "经营活动产生的现金流量净额": 19,
+                      "购建固定资产、无形资产和其他长期资产支付的现金": 25, "分配股利、利润或偿付利息支付的现金": 32,
+                      "投资活动产生的现金流量净额": 40, "筹资活动产生的现金流量净额": 41,
+                      "现金及现金等价物净增加额": 47, "期末现金及现金等价物余额": 54}
+        self.save_sheet(sheet_name='18.现金流量表分析', import_field_dict=field_dict)
 
 
 if __name__ == '__main__':
