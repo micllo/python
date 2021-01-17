@@ -131,8 +131,9 @@ class OrganizeData:
     def capture_reportForm_data(self):
         """
             将'基础数据字典1|2|3'整合入'合并报表字典' -> reportForm_dict
-            < 利润表中的特殊处理 >
-            （1）原因："归属于母公司所有者的净利润"、"归属于母公司股东的净利润" 这是同一个科目，但是每个公司报表的叫法不同
+            < 资产负债表、利润表 的特殊处理 >
+            （1）原因："归属于母公司所有者权益合计"、"归属于母公司股东权益合计" 这是同一个科目，但是每个公司报表的叫法不同
+                      "归属于母公司所有者的净利润"、"归属于母公司股东的净利润" 这是同一个科目，但是每个公司报表的叫法不同
             （2）解决：将这两个科目赋予相同的值
             （3）举例：归母所有者 -> [1.1, 1.2, 1.3, 1.4, 0.0]
                       归母股东  -> [0.0, 0.0, 0.0, 0.0, 1.5]
@@ -146,13 +147,19 @@ class OrganizeData:
                 if self.basicFile3:
                     self.reportForm_dict[field] += self.basic3_dict[field]
 
-        # 利润表中的特殊处理
-        # cc = [x + y for x, y in zip(aa, bb)]
-        list1 = list(self.reportForm_dict["归属于母公司所有者的净利润"])
-        list2 = list(self.reportForm_dict["归属于母公司股东的净利润"])
+        # 资产负债表中的特殊处理
+        list1 = list(self.reportForm_dict["归属于母公司所有者权益合计"])
+        list2 = list(self.reportForm_dict["归属于母公司股东权益合计"])
         list3 = [x + y for x, y in zip(list1, list2)]
-        self.reportForm_dict["归属于母公司所有者的净利润"] = list3
-        self.reportForm_dict["归属于母公司股东的净利润"] = list3
+        self.reportForm_dict["归属于母公司所有者权益合计"] = list3
+        self.reportForm_dict["归属于母公司股东权益合计"] = list3
+
+        # 利润表中的特殊处理
+        list4 = list(self.reportForm_dict["归属于母公司所有者的净利润"])
+        list5 = list(self.reportForm_dict["归属于母公司股东的净利润"])
+        list6 = [x + y for x, y in zip(list4, list5)]
+        self.reportForm_dict["归属于母公司所有者的净利润"] = list6
+        self.reportForm_dict["归属于母公司股东的净利润"] = list6
 
     def import_reportFormFile(self):
         """
@@ -246,7 +253,7 @@ class OrganizeData:
         # 整理需要导入的字段 {字段名:行数}
         field_dict = {"营业收入": 5, "营业成本": 12, "销售费用": 20, "管理费用": 21, "研发费用": 22, "财务费用": 23,
                       "税金及附加": 46, "营业利润": 47, "营业外收入": 55, "营业外支出": 56, "利润总额": 58,
-                      "归属于母公司股东的净利润": 64, "归属于母公司所有者权益合计": 78}
+                      "归属于母公司股东的净利润": 64, "归属于母公司股东权益合计": 78}
         self.save_sheet(sheet_name='17.利润表分析', import_field_dict=field_dict)
 
     def import_cashflow_sheet(self):
