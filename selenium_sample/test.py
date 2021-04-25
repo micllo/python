@@ -3,8 +3,8 @@ from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 import time
 
-wd = webdriver.Chrome()
-# wd = webdriver.Firefox()
+# wd = webdriver.Chrome()
+wd = webdriver.Firefox()
 
 # 远程启动 mac-win10虚拟机 （ 10.211.55.6 ）
 # wd = webdriver.Remote(command_executor='http://10.211.55.6:4444/wd/hub',

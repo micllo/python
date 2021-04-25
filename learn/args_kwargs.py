@@ -1,5 +1,6 @@
 # coding=utf-8
 
+
 #  *args 用来将参数打包成tuple给函数体调用，输出结果以元组的形式展示
 def print_msg(*args):
     print(args)
@@ -23,12 +24,15 @@ if __name__ == '__main__':
     a = ['tigger', 'mouse', 'Elephant', 'Lion']
     print_msg(a)
     print('---------------------\n')
+
     # *脱去一层外套
     print_msg(*a)
     print('---------------------\n')
+
     a = [['tigger', 'mouse'], ['Elephant', 'Lion']]
     print_msg(a)
     print('---------------------\n')
+
     # *脱去一层外套
     print_msg(*a)
     print('---------------------\n')

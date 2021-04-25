@@ -29,7 +29,7 @@ if __name__ == "__main__":
     """
 
     # 获取 实例对象'p1'的属性'name'
-    name = getattr(p1, "name", "11111")
+    name = getattr(p1, "name")
     print(name)
 
     # 获取 实例对象'p1'的方法'show_info'（ 该方法绑定了实例对象 p1 ）
@@ -42,16 +42,16 @@ if __name__ == "__main__":
     demo = getattr(show_info, "__unittest_skip__", False)
     print(demo)
 
-#     # 获取 类'Person'的类属性'country'
-#     country = getattr(Person, "country")
-#     print(country)
-#
-#     # 获取 类'Person'的类方法'show_contry'
-#     show_country = getattr(Person, "show_country")
-#     print(show_country)  # <bound method Person.show_country of <class '__main__.Person'>>
-#
-#     # 执行 类'Person'的类方法'show_contry'
-#     show_country()
+    # # 获取 类'Person'的类属性'country'
+    # country = getattr(Person, "country")
+    # print(country)
+    #
+    # # 获取 类'Person'的类方法'show_contry'
+    # show_country = getattr(Person, "show_country")
+    # print(show_country)  # <bound method Person.show_country of <class '__main__.Person'>>
+    #
+    # # 执行 类'Person'的类方法'show_contry'
+    # show_country()
 #
 #     """
 #         hasattr()

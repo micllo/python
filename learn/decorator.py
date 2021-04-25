@@ -8,7 +8,7 @@ from json import dumps
     [ 函 数 装 饰 器 ]
 """
 def first(func):
-    # @wraps(func)  # 不改变使用装饰器原有函数的结构(如__name__, __doc__)
+    @wraps(func)  # 不改变使用装饰器原有函数的结构(如__name__, __doc__)
     def wrapper(*args, **kwargs):
         """__doc__ : first"""
         print("第一层装饰器 start ....")
@@ -22,7 +22,7 @@ def first(func):
 
 
 def second(func):
-    # @wraps(func)  # 不改变使用装饰器原有函数的结构(如__name__, __doc__)
+    @wraps(func)  # 不改变使用装饰器原有函数的结构(如__name__, __doc__)
     def wrapper(*args, **kwargs):
         """__doc__ : second"""
         print("第二层装饰器 start 。。。。")
