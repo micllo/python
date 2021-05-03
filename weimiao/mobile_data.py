@@ -51,15 +51,15 @@ class MobeleData:
         1.提供'指标信息字典': target_info_dict
             { 工作表名 : { 指标名 : 行号 } } -> { 8个关键指标 : { 净资产收益率 : 9 } }
         2.获取"报表分析Excel"中的'指标数据字典'：target_data_dict
-            { 工作表名 : { 指标名_行号 : [2020_data,2019_data,2018_data,2017_data,2016_data,2015_data] } }
-        3.提供'指标'的判断规则
-        4.验证并得到'指标结果字典'：target_result_dict
-            { 工作表名 : { 指标名_行号+1 : [2020_result,2019_result,2018_result,2017_result,2016_result,2015_result] } }
-        5.将指标结果保存入"报表分析Excel"
+            { 工作表名 : { 指标名 : [2020_data,2019_data,2018_data,2017_data,2016_data,2015_data] } }
+        3.验证并得到'指标结果字典'：target_result_dict
+            { 工作表名 : { 指标名 : [2020_result,2019_result,2018_result,2017_result,2016_result,2015_result] } }
+        4.将指标结果保存入"报表分析Excel"
         """
         self.get_target_info_dict()
         self.get_target_data_dict()
         self.get_target_result_dict()
+        self.import_result()
 
     def get_basic_dict(self):
         """
@@ -242,7 +242,7 @@ class MobeleData:
         sheet_3["利息支出/净利润"] = 11  # 暂不处理
         sheet_3["应收账款/资产总计"] = 18
         sheet_3["（预付款项+其他应收款）/总资产"] = 27
-        sheet_3["在建工程/总资产"] = 34
+        sheet_3["在建工程/总资产"] = 34   # 暂不处理
         self.target_info_dict["财务造假分析"] = sheet_3
 
         sheet_4 = {}
@@ -289,28 +289,6 @@ class MobeleData:
         """
             参数：sheet_target_data   -> { 指标名 : [2020_data,2019_data,2018_data,2017_data,2016_data,2015_data] }
             返回：sheet_target_result -> { 指标名 : [2020_result,2019_result,2018_result,2017_result,2016_result,2015_result] }
-
-            【 仍需要手动判断的指标 】
-             < 8个关键指标 >
-             1.净利润现金比率
-             2.分红率
-
-             < 18步分析指标 >
-             1.准货币资金-有息负债
-             2.应付预收-应收预付差额
-             3.投资类资产占资产总计的比率
-             4.毛利率波动幅度（毛利率）
-             5.主营利润/营业利润（主营利润率）
-
-             < 财务造假分析 >
-             1.利息支出/净利润
-             2.在建工程/总资产
-
-             < 其他分析指标 >
-             1.与企业经营无关的资产/总资产
-             2.经营现金流增长率
-             3.公司类型
-             4.现金+分红
         """
         sheet_target_result = {}
         for target_name, data_list in sheet_target_data.items():
@@ -319,12 +297,12 @@ class MobeleData:
                 # < 8个关键指标 >
                 if target_name == "净资产收益率":
                     result_list.append(data >= 0.2 and "非常优秀" or (data >= 0.15 and "优秀" or (data >= 0.05 and "一般" or "质量较差")))
-                if target_name == "净利润现金比率":  # < 需要手动判断 平均值 >  ????????????????
+                if target_name == "净利润现金比率":  # < 需要手动判断 平均值 >
                     result_list.append(data >= 1 and "优秀" or (data >= 0.8 and "一般" or "质量较差"))
                 if target_name == "资产负债率":
                     result_list.append(data < 0.4 and "无风险" or (data < 0.6 and "风险小" or "风险大"))
                 if target_name == "毛利率":
-                    result_list.append(data >= 0.6 and "非常优秀" or (data >= 0.4 and "优秀" or (data >= 0.3 and "一般" or "质量较差")))
+                    result_list.append(data >= 0.6 and "非常优秀" or (data >= 0.4 and "优秀" or (data >= 0.15 and "一般" or "质量较差")))
                 if target_name == "营业利润率":
                     result_list.append(data >= 0.2 and "优秀" or (data >= 0.12 and "一般" or "质量较差"))
                 if target_name == "营业收入增长率":
@@ -357,13 +335,13 @@ class MobeleData:
                 if target_name == "销售费用率":
                     result_list.append(data <= 0.15 and "风险小" or (data <= 0.3 and "一般" or "质量较差"))
                 if target_name == "主营利润/营业利润":  # < 需要手动判断 >
-                    result_list.append(data >= 0.8 and "质量好" or (data >= 0.7 and "一般" or "质量较差"))
+                    result_list.append(data >= 0.8 and "质量较好" or (data >= 0.7 and "一般" or "质量较差"))
                 if target_name == "归母净利润增长率":
                     result_list.append(data >= 0.1 and "优秀" or (data > 0 and "一般" or "质量较差"))
                 if target_name == "购建资产/经营现金流":
                     result_list.append(data > 0.6 and "风险大" or (data > 0.03 and "风险小" or "一般"))
                 if target_name == "分配股利/经营现金流":
-                    result_list.append(data >= 0.2 and "优秀" or "质量较差")
+                    result_list.append(data >= 0.2 and "优秀" or "一般")
 
                 # < 财务造假分析 >
                 if target_name == "应收账款/资产总计":
@@ -373,7 +351,7 @@ class MobeleData:
 
                 # < 其他分析指标 >
                 if target_name == "与企业经营无关的资产/总资产":  # < 需要手动判断 >
-                    result_list.append(data <= 0.10 and "优秀" or (data <= 0.20 and "一般" or "质量较差"))
+                    result_list.append(data <= 0.10 and "优秀" or (data <= 0.25 and "一般" or "质量较差"))
                 if target_name == "准货币资金/资产总计":
                     result_list.append(data >= 0.5 and "非常优秀" or (data >= 0.25 and "优秀" or (data > 0.20 and "一般" or "质量较差")))
                 if target_name == "预付款项/资产总计":
@@ -381,7 +359,7 @@ class MobeleData:
                 if target_name == "营业外收入净额/利润总额":
                     result_list.append(abs(data) < 0.05 and "质量较好" or "质量较差")
                 if target_name == "销售商品/营业收入":
-                    result_list.append(data >= 1 and "优秀" or (data >= 0.8 and "一般" or "质量较差"))
+                    result_list.append(data >= 1 and "优秀" or (data >= 0.75 and "一般" or "质量较差"))
                 if target_name == "经营现金流增长率":
                     result_list.append(data > 0.1 and "优秀" or (data > 0 and "一般" or "质量较差"))
                 if target_name in ["现金+分红", "期末现金及现金等价物余额"]:
@@ -389,7 +367,22 @@ class MobeleData:
             sheet_target_result[target_name] = result_list
         return sheet_target_result
 
-
+    def import_result(self):
+        """
+          将指标结果保存入"报表分析Excel"
+           target_result_dict -> { 工作表名 : { 指标名 : [2020_result,2019_result,2018_result,2017_result,2016_result,2015_result] } }
+           target_info_dict -> { 工作表名 : { 指标名 : 行号 } }
+        """
+        for sheet_name, result_data in self.target_result_dict.items():
+            wb = openpyxl.load_workbook(self.analysisFile)
+            sheet = wb.get_sheet_by_name(sheet_name)
+            for target_name, result_list in result_data.items():
+                # 获取需要更新的行号
+                row_num = self.target_info_dict[sheet_name][target_name] + 1
+                # 修改单元格数据
+                for col_i, result in enumerate(result_list):
+                    sheet.cell(row=row_num, column=col_i + 3, value=result)
+            wb.save(self.analysisFile)  # 将修改完的数据保存入Excel
 
 
 if __name__ == '__main__':
@@ -404,16 +397,35 @@ if __name__ == '__main__':
      1.运行导入数据
      2.打开excel,手动保存
      3.运行导入分析结果
+     4.手动判断剩余指标
     """
-    # 1.导入数据
     # md.run_import()
-    # md.show()
-
-    ######## 2.打开Excel,手动保存 ########
-
-    # 3.导入分析结果
     md.run_analysis_result()
     md.show()
 
+    """
+    【 手 动 判 断 剩 余 指 标 】
+
+     < 8个关键指标 >
+       1.净利润现金比率
+       2.分红率
+
+     < 18步分析指标 >
+       1.准货币资金-有息负债
+       2.应付预收-应收预付差额
+       3.投资类资产占资产总计的比率
+       4.毛利率波动幅度（毛利率）
+       5.主营利润/营业利润（主营利润率）
+
+     < 财务造假分析 >
+       1.利息支出/净利润
+       2.在建工程/总资产
+
+     < 其他分析指标 >
+       1.与企业经营无关的资产/总资产
+       2.经营现金流增长率
+       3.公司类型
+       4.现金+分红
+    """
 
 
