@@ -136,7 +136,7 @@ if __name__ == '__main__':
     file = "/Users/micllo/Downloads/A年报数据抓取/价格指标-副本.xlsx"
     xq_base_url = "https://xueqiu.com/"
     ths_base_url = "http://stockpage.10jqka.com.cn/"
-    gsi = GainStockInfo(xq_base_url, ths_base_url, file, gd_link=True)
+    gsi = GainStockInfo(xq_base_url, ths_base_url, file, gd_link=False)
     gsi.run()
 
 
