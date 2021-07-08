@@ -76,7 +76,10 @@ class GainStockInfo:
         # 判断股票代码开头字母来选择调用地址
         # 600031 -> https://xueqiu.com/S/SH600031
         # 002677 -> https://xueqiu.com/S/SZ002677
-        url = stock_code[0] == "6" and self.stock_info_url + "SH" + stock_code or self.stock_info_url + "SZ" + stock_code
+        # 判断基金代码开头字母来选择调用地址
+        # 510880 -> https://xueqiu.com/S/SH510880
+        # 159994 -> https://xueqiu.com/S/SZ159994
+        url = stock_code[0] in ["6", "5"] and self.stock_info_url + "SH" + stock_code or self.stock_info_url + "SZ" + stock_code
 
         stock_info = {}
         html = self.send_request(url, stock_code)
@@ -86,13 +89,17 @@ class GainStockInfo:
         stock_current = soup.select('div[class="stock-current"]')[0].get_text()
         stock_info["当前股价"] = stock_current[1:]
         # 获取 每股收益、股息(TTM)、总股本
-        table_ele = soup.select('table[class="quote-info"]')[0]
-        stock_profit_match = re.match(r'(.*)每股收益：<span>(.*)</span></td><td>股息\(TTM\)', str(table_ele))
-        stock_interest_match = re.match(r'(.*)股息\(TTM\)：<span>(.*)</span></td><td>总股本', str(table_ele))
-        stock_num_match = re.match(r'(.*)总股本：<span>(.*)</span></td><td>总市值', str(table_ele))
-        stock_info["每股收益"] = stock_profit_match.group(2)
-        stock_info["股息(TTM)"] = stock_interest_match.group(2)
-        stock_info["总股本"] = stock_num_match.group(2)[:-1]
+        if stock_code[0] in ["6", "0"]:
+            table_ele = soup.select('table[class="quote-info"]')[0]
+            stock_profit_match = re.match(r'(.*)每股收益：<span>(.*)</span></td><td>股息\(TTM\)', str(table_ele))
+            stock_interest_match = re.match(r'(.*)股息\(TTM\)：<span>(.*)</span></td><td>总股本', str(table_ele))
+            stock_num_match = re.match(r'(.*)总股本：<span>(.*)</span></td><td>总市值', str(table_ele))
+            stock_info["每股收益"] = stock_profit_match.group(2)
+            stock_info["股息(TTM)"] = stock_interest_match.group(2)
+            stock_info["总股本"] = stock_num_match.group(2)[:-1]
+        else:
+            stock_info["每股收益"], stock_info["股息(TTM)"], stock_info["总股本"] = "", "", ""
+
         stock_info["行号"] = row_num
         if self.gd_link:
             xq_base_url = stock_code[0] == "6" and self.xq_gd_url + "SH" + stock_code or self.xq_gd_url + "SZ" + stock_code

@@ -1,6 +1,9 @@
 import re
 import copy
 import json
+from io import StringIO
+import traceback, os
+
 
 # a = 'A234567890'
 # if re.match(r'[a-zA-Z\_][0-9a-zA-Z\_]{1,2}', a):
@@ -30,8 +33,17 @@ def bubble_sort(nums):
     return nums
 
 
-if __name__ == '__main__':
-    test = "?name=messi&age=33"
-    print(test.json())
+def test():
+    try:
+        a = 1/0
+    except Exception as e:
+        print("=============")
+        traceback.print_exc()
+        print("=============")
+        print(e)
+        print("=============")
 
+
+if __name__ == '__main__':
+    print(int(3/2))
 

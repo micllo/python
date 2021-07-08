@@ -4,24 +4,24 @@ import requests
     接 口 示 例
     https://docs.python-requests.org/zh_CN/latest/
     http://ws.webxml.com.cn/WebServices/WeatherWS.asmx?op=getSupportCityString
-    
+
     【 requests 参考文档 】
     https://docs.python-requests.org/zh_CN/latest
     https://docs.python-requests.org/zh_CN/latest/user/quickstart.html#id5
-    
+
     1.常见的请求正文格式（Body）
     （1）url-encoded：文本格式（网页表单提交数据的默认格式）
     （2）multipart/form-data：表单格式（上传文件接口）
     （3）raw：自由格式（JSON、TEXT、JavaScript、HTML、XML）
     （4）binary：二进制格式
-    
+
     2.请求头信息中的重要字段：Content-Type
     （1）application/json
     （2）www-xxxx-url-encode
     （3）text/xml
     （4）application/xml
     （5）空着（上传文件）
-        
+
     3.接口 入参、出参 格式种类
     （1）入参：form、出参：json
     （2）入参：json、出参：json
@@ -136,5 +136,7 @@ for i in range(0, 3):
         print("失败重试" + str(i))
 else:
     raise Exception("失败三次，接口异常！！！")
+
+
 
 

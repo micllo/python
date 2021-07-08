@@ -26,7 +26,7 @@ if __name__ == '__main__':
     # else:
     #     print "集合不存在"
     #
-    # # 指定文档名
+    # # 获取 集合（若不存在，则创建）
     # mycol = mydb['monitor_func']
 
     # # 为文档添加内容

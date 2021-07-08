@@ -54,14 +54,14 @@ print("")
 a = [1, 2, [4, 5]]
 b = copy.copy(a)
 a[2][0] = 0
-print(a)
-print(b)
+print(id(a), id(b))
+print(a, b)
 print("")
 
 a = [1, 2, [4, 5]]
 b = copy.deepcopy(a)
 a[2][0] = 0
-print(a)
-print(b)
+print(id(a), id(b))
+print(a, b)
 print("")
 

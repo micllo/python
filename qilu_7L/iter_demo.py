@@ -18,7 +18,7 @@ class Classes(object):
     def __init__(self, number):
         self.number = number
         self.student = []
-        self.n = 0
+        self.n = 0  # 类似与指针的作用
 
     def add(self, name, age):
         self.student.append((name, age))
@@ -87,6 +87,7 @@ for i in get_odd2(a):
     print(i)
 
 
+# 在web自动化中的应用场景（ 代替 setup、teardown 方法 ）
 def A():
     print("打开浏览器")
     yield 0

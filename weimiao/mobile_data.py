@@ -399,8 +399,8 @@ if __name__ == '__main__':
      3.运行导入分析结果
      4.手动判断剩余指标
     """
-    # md.run_import()
-    md.run_analysis_result()
+    md.run_import()
+    # md.run_analysis_result()
 
     md.show()
 

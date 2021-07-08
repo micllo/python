@@ -3,6 +3,7 @@ from fabric.api import *
 from fabric.contrib.console import confirm
 from fabric.utils import abort
 from fabric.colors import *
+from io import StringIO
 import json
 import time
 import re
@@ -108,7 +109,8 @@ def test_sudo():
 @task
 def test_local():
     with lcd("/Users/micllo/Downloads"):
-        result = local("ls", capture=True)  # 捕获标准输出的内容
+        result = local("ls123", capture=True)  # 捕获标准输出的内容
+        print("=================")
         print(result)
         print(type(result))
         print(result.failed)     # 如果执行失败那么 result.failed 为True
@@ -224,20 +226,83 @@ def test_local_put_get():
             get(remote_path="deploy_create_new_pro.sh", local_path="/Users/micllo/Downloads/download_file")
 
 
+class FabricException(Exception):
+    """
+      自定义捕获 Fabric 异常方法
+    """
+    pass
+env.abort_exception = FabricException
+env.combine_stderr = False
+
+
 def test_local_ssh():
+    output = StringIO()  # 非错误输出
+    errput = StringIO()  # 错误输出
+    print(output)
+    print(type(output))
     host_port = 22
     machine_ip = "localhost"
     host_user = "micllo"
-    host_pwd = "abc123"
-    with settings(host_string="%s@%s:%s" % (host_user, machine_ip, host_port), password=host_pwd):
-        run("ls", warn_only=True)
-        result = run("pwd", warn_only=True)
-        print(result)  # 命令执行的结果
-        print(result.return_code)  # 返回码，0表示正确执行，1表示错误
-        print(result.failed)
+    host_pwd = "abc123123"
+    try:
+        # warn_only=False  # 不忽略失败的命令，不能继续执行
+        with settings(host_string="%s@%s:%s" % (host_user, machine_ip, host_port), password=host_pwd, warn_only=False, stderr=output):
+            run("ls")
+            run("pwd")
+            run("ls")
+            # print("==========")
+            # print(result)  # 命令执行的结果
+            # print(result.return_code)  # 返回码，0表示正确执行，1表示错误
+            # print(result.failed)
+    except Exception as e:
+        pass
+        # print("===========")
+        # print("except: " + str(e))                  # 打印 错误信息
+        # print("——————————————————")
+        # print("output: " + str(output.getvalue()))  # 打印 非错误输出
+        # print("——————————————————")
+        # print("errput: " + str(errput.getvalue()))  # 打印 错误信息
+        # print("===========")
 
+    print("===========")
+    print("output: " + str(output.getvalue()))  # 打印 非错误输出
+    print("===========")
+
+
+def test_local111():
+    ls = StringIO()
+    try:
+        with settings(warn_only=False):
+            with lcd("/Users/micllo/Downloads"):
+                ls = local("ls", capture=True)  # 捕获标准输出的内容
+                print("=================")
+                print(ls)
+                if ls.find("PDFr") != -1:
+                    print("存在PDF")
+                else:
+                    print("不存在PDF")
+
+                print(type(ls))
+                print(ls.failed)     # 如果执行失败那么 result.failed 为True
+                print(ls.succeeded)  # 如果执行成功那么 result.succeeded 为True
+                # pwd = local("pwd", capture=True)
+                # print("=================")
+                # print(pwd)
+                # print(type(pwd))
+                # print(pwd.failed)  # 如果执行失败那么 result.failed 为True
+                # print(pwd.succeeded)  # 如果执行成功那么 result.succeeded 为True
+    except FabricException as e:
+        print("===========")
+        print("e: " + str(e))                  # 打印 错误信息
+        print("——————————————————")
+        print("0: " + str(ls.getvalue()))  # 打印 输出信息
+        print("===========")
 
 if __name__ == '__main__':
     # test_setting()
     # test_local_put_get()
-    test_local_ssh()
+    # test_local_ssh()
+    test_local111()
+
+
+
