@@ -3,6 +3,8 @@ import copy
 import json
 from io import StringIO
 import traceback, os
+from threading import Thread
+import time
 
 
 # a = 'A234567890'
@@ -16,34 +18,39 @@ import traceback, os
 # print(res.group(0))
 # # print(res.group(1))
 
-class abc(object):
-
-    def abc_one(self):
-        print("dddddd")
-
-
-"""
-冒泡排序
-"""
-def bubble_sort(nums):
-    for i in range(len(nums) - 1):  # 这个循环负责设置冒泡排序进行的次数
-        for j in range(len(nums) - i - 1):  # j为列表下标
-            if nums[j] > nums[j + 1]:
-                nums[j], nums[j + 1] = nums[j + 1], nums[j]
-    return nums
+def aaa(name, age):
+    time.sleep(5)
+    print(name, age)
 
 
-def test():
-    try:
-        a = 1/0
-    except Exception as e:
-        print("=============")
-        traceback.print_exc()
-        print("=============")
-        print(e)
-        print("=============")
+def async_aaa(name, age, is_join=False):
+    args = (name, age)
+    thr = Thread(target=aaa, args=args)
+    thr.start()
+    if is_join:
+        thr.join()
+    print("over")
+
+
+def singleton(cls):
+
+    cls_instance = {}
+
+    def get_instance(*args, **kwargs):
+        if cls_instance.get(cls) is None:
+            cls_instance[cls] = cls(*args, **kwargs)
+        return cls_instance[cls]
+
+    return get_instance
+
+
+@singleton
+class test(object):
+
+    def __init__(self, name):
+        self.name = name
 
 
 if __name__ == '__main__':
-    print(int(3/2))
-
+    pass
+    products = [["iphone", 6888], ["MacPro", 14800], ["小米6", 2499], ["Coffee", 31], ["Book", 60], ["Nike", 699]]

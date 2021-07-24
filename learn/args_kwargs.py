@@ -1,6 +1,17 @@
 # coding=utf-8
 
 
+def test(*info, **data):
+    """
+        *info ： 接收不定长 元祖
+        **data： 接收不定长 字典
+    """
+    print(info)
+    print(type(info))
+    print(data)
+    print(type(data))
+
+
 #  *args 用来将参数打包成tuple给函数体调用，输出结果以元组的形式展示
 def print_msg(*args):
     print(args)
@@ -16,6 +27,9 @@ def print_msg2(**kwargs):
 
 
 if __name__ == '__main__':
+
+    test("aa", "bb", a=11, b="22")
+    print('---------------------\n')
 
     # *args 用来将参数打包成tuple给函数体调用，输出结果以元组的形式展示 实例
     print_msg('tigger', 'mouse', 'Elephant', 'Lion')
