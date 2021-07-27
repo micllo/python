@@ -96,3 +96,28 @@ def A():
 
 for i in A():
     print(i)
+
+
+def test():
+    # print("开始操作")
+    yield 0
+    print("结束操作")
+
+
+def action_1():
+    for i in test():
+        print("操作01")
+
+def action_2():
+    for i in test():
+        print("操作02")
+
+
+action_1()
+action_2()
+
+
+
+
+
+

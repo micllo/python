@@ -1,5 +1,16 @@
 import time
 
+"""
+    时间戳 ----> 时间元祖 ----> 时间字符串
+
+    time()  localtime(stamp)  strftime(format, tuple)  
+    
+    
+    时间字符串 ----> 时间元祖 ----> 时间戳
+    
+     str    strptime(str, format)    mktime(stamp)
+"""
+
 # 获取当前时间戳
 time_stamp = time.time()
 print(time_stamp)

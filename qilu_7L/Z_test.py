@@ -1,28 +1,88 @@
-import time, random
+import random, time
+from functools import reduce
+
+
+def maopao():
+    """
+    冒泡排序
+    """
+    maopao = [3, 5, 2, -2, 6, 9, 1]
+
+
+def two_num_add():
+    """
+    将列表中两数之和等于13的元素取出来
+    方法一：两层循环
+    方法二：一层循环
+    """
+    test = [0, 2, 6, 7, 11, 15, 13]
+    target = 13
+
+
+def find_with_two():
+    """
+    二分查找（通过给定的数字，找出对应的下标）
+    """
+    find = 9
+    test = [-2, 1, 2, 3, 5, 6, 9]
+
+
+def valid_word():
+    """
+    有效的字母异位词：给定两个字符串，若它们字母都相同但是顺序不同，则视为字母异位词
+    网址：https://leetcode-cn.com/problems/valid-anagram/
+    """
+    a = "anagram"
+    b = "nagaram"
+
+
+def prime_number():
+    """
+     求100以内的质数：除了1和自身以外不能被其他自然数整除的大于1的自然数
+    """
+
+
+
+def nine_x_nine():
+    """
+    打印 9x9乘法表
+    """
+
+
+def show_even_numbers():
+    """
+    显示 偶数（一行代码）
+    :return:
+    """
+
+
+def show_sxhs():
+    """
+    求1000以内的水仙花数
+        eg: 1^3 + 5^3 + 3^3 = 153
+    """
+
+
+
+def remove_duplication():
+    """
+    列表去重（三种方式）
+    """
+    a = [1, 2, 3, 2, 5, 1, 6]
+
+
 
 def subject_33():
     """
         33.统计列表中每个元素出现的个数
-
-        {}.fromkeys(seq, val=None)
-           -> 创建并返回一个新字典，
-              参数1：已序列中的元素创建key（自动去重）
-              参数2：创建value 默认赋值
     :return:
     """
-    # 1
     a = [1, 3, 4, 1, 3, 5, 7, 4, 1]
-    tmp = list(set(a))
-    res = {}
-    for i in tmp:
-        res[i] = a.count(i)
-    print(res)
-
-    # 2
     a_dict = {}.fromkeys(a, 0)
     for i in a_dict.keys():
         a_dict[i] = a.count(i)
     print(a_dict)
+
 
 
 def subject_34():
@@ -43,8 +103,9 @@ def subject_34():
     """
     products = [["iphone", 6888], ["MacPro", 14800], ["小米6", 2499], ["Coffee", 31], ["Book", 60], ["Nike", 699]]
     print("------  商品列表 ------")
-    for index, value in enumerate(products):
-        print(f"{index} {value[0]} {value[1]}")
+    for i in range(0, len(products)):
+        print(f"{i}\t{products[i][0]}\t{str(products[i][1])}")
+
 
 
 def subject_50():
@@ -59,8 +120,8 @@ def subject_50():
          {"from": {"x": 55.555, "y": 66.666}, "to": {"x": 77.777, "y": 88.888}}]
 
     for i_dict in a:
-        for key, value_dict in i_dict.items():
-            i_dict[key] = ",".join([str(i) for i in value_dict.values()])
+        for key, value in i_dict.items():
+            i_dict[key] = ",".join(map(lambda x: str(x), list(value.values())))
     print(a)
 
 
@@ -77,11 +138,14 @@ def subject_45():
             'LuoJin': 35,
         }
     print(f"平均分：{sum(data.values())/len(data.values()):.2f}")
+
     print(f"学霸：{sorted(data.items(), key=lambda x: x[1], reverse=True)[0][0]}")
     print(f"学霸排行：{list(map(lambda x: x[0], sorted(data.items(), key=lambda x: x[1], reverse=True)))}")
 
     print(f"学霸：{[key for key,value in data.items() if value == max(data.values())][0]}")
     print(f"学霸排行：{[i[0] for i in sorted(data.items(), key=lambda x:x[1], reverse=True)]}")
+
+    print(f"学霸：{list(map(lambda k,v: v==max(data.values()), data.items()))}")
 
 
 def subject_49():
@@ -93,6 +157,7 @@ def subject_49():
              "AX": [{"2016_08": 7}, {"2016_09": 32}, {"2016_10": 0}],
              "AX_admin": [{"2016_08": 5}, {"2016_09": 13}, {"2016_10": 2}]
             }
+
     m = input("请输入月份: ")
     if m.isdigit():
         if int(m) in range(1, 13):
@@ -114,10 +179,9 @@ def senior_func_map():
         函数接收两个参数，一个是函数，一个是序列
         将传入的函数依次作用到序列的每个元素，并把结果作为新的list返回
     """
-    a = [2, 1, 4, 3]
     # 求列表的平方数值
-    print([i**2 for i in a])
-    print(list(map(lambda i: i**2, a)))
+    a = [2, 1, 4, 3]
+    print(list(map(lambda x: x**2, a)))
 
     # 针对列表中每个元素长度值，进行排序
     b = ['Python5', 'Java6', 'C2', 'PHP1', 'Ruby4', 'Go3', 'JavaScript7']
@@ -127,7 +191,6 @@ def senior_func_map():
 
     # 一行代码 实现 首字母大写、其余小写
     c = ["adam", "LISA", "barT"]
-    print(list(map(lambda x: x.title(), c)))
     print(list(map(lambda x: x[0].upper() + x[1:].lower(), c)))
 
 
@@ -153,9 +216,8 @@ def senior_func_reduce():
         reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)
     """
     # 把序列 [1, 3, 5, 7, 9] 转换成 13579
-    a = [1, 3, 5, 7, 9]
-    from functools import reduce
-    print(reduce(lambda x, y: x*10+y, a))
+    test = [1, 3, 5, 7, 9]
+    print(reduce(lambda x, y: x * 10 + y, test))
 
 
 def subject_79():
@@ -164,7 +226,6 @@ def subject_79():
     """
     time_str = "2017-10-10 23:40:00"
     time_tuple = time.strptime(time_str, "%Y-%m-%d %H:%M:%S")
-    print(time_tuple)
     time_str2 = time.strftime("%Y/%m/%d %I:%M:%S %p", time_tuple)
     print(time_str2)
 
@@ -175,8 +236,7 @@ def subject_80():
     """
     time_stamp = time.time() - 3*24*60*60
     time_tuple = time.localtime(time_stamp)
-    print(time_tuple)
-    time_str = time.strftime("%Y年%m月%d日_%H小时:%M分钟:%S秒数", time_tuple)
+    time_str = time.strftime("%Y年-%m月-%d日_%H小时:%M分钟:%S秒数", time_tuple)
     print(time_str)
 
 
@@ -184,22 +244,16 @@ def subject_81():
     """
         编写一个方法，接受参数为一个列表：[2017, 01, 15] (不考虑1970.1.1之前的时间点)。
         随机输出2017.1.15日 00:00:00 之前的一个时间点，格式为：2017-01-01_13:59:06
-
-        思路：1.将列表转换成时间字符串
-             2.将时间字符串 转换成 时间戳（中间需要 元祖时间 过度）
-             3.时间戳 随机减去 一个数字
-             4.将时间戳 转换成 时间字符串（中间需要 元祖时间 过度）
-
-        random.randint(a,b)	返回整数a和b范围内数字
+         random.randint(a,b)	返回整数a和b范围内数字
     """
     time_list = [2017, 1, 15]
-    time_str = f"{time_list[0]}-{time_list[1]}-{time_list[2]}_00:00:00"
-    str_to_tuple = time.strptime(time_str, "%Y-%m-%d_%H:%M:%S")
-    tuple_to_stamp = time.mktime(str_to_tuple)
-    need_stamp = tuple_to_stamp - random.randint(1, tuple_to_stamp)
-    stamp_to_tuple = time.localtime(need_stamp)
-    tumple_to_str = time.strftime("%Y-%m-%d_%H:%M:%S", stamp_to_tuple)
-    print(tumple_to_str)
+    time_str = "-".join(map(lambda x: str(x), time_list)) + "_00:00:00"
+    time_tuple1 = time.strptime(time_str, "%Y-%m-%d_%H:%M:%S")
+    time_stamp = time.mktime(time_tuple1)
+    need_stamp = time_stamp - random.randint(1, int(time_stamp))
+    time_tuple2 = time.localtime(need_stamp)
+    time_str2 = time.strftime("%Y-%m-%d_%H:%M:%S", time_tuple2)
+    print(time_str2)
 
 
 def subject_82():
@@ -207,14 +261,13 @@ def subject_82():
         根据传入的美式时间字符串 13:28:06_12/21/2018
         生成标准时间字符串 2018-12-21_13:28:06
     """
-    time_str = "13:28:06_12/21/2018"
-    time_list = time_str.split("_")
-    hms = time_list[0]
-    ymd = time_list[1]
-    ymd_list = ymd.split("/")
-    ymd_list.insert(0, ymd_list.pop())  # 将列表最后一位 放入第一位
+    time = "13:28:06_12/21/2018"
+    time_list = time.split("_")
+    hms_str = time_list[0]
+    ymd_list = time_list[1].split("/")
+    ymd_list.insert(0, ymd_list.pop())
     ymd_str = "-".join(ymd_list)
-    print(f"{ymd_str}_{hms}")
+    print(ymd_str + "_" + hms_str)
 
 
 def subject_44():
@@ -222,65 +275,30 @@ def subject_44():
         将1-25的数字打乱顺序填入5*5个小方格的表里面（ 一次循环 ）
         random.shuffle(list)   给指定的列表进行原地随机移位
     """
-    num_list = [i for i in range(1, 26)]
-    random.shuffle(num_list)  # 给指定的列表进行原地随机移位
+    num_list = list(range(1, 26))
+    random.shuffle(num_list)
     for i in range(0, len(num_list)):
         if i % 5 == 0 and i > 0:
             print()
         print(num_list[i], end="\t")
 
 
-def subject_40():
-    """
-        统计一篇英文文章每个单词的出现频率，并返回出现频率最高的前5个单词及其出现次数(字典形式)
-    """
-    content = "A small sample of texts from Project Gutenberg appears in the NLTK corpus collection. However, you may be interested in analyzing other texts from Project Gutenberg. You can browse the catalog of 25,000 free online books at http://www.gutenberg.org/catalog/, and obtain a URL to an ASCII text file. Although 90% of the texts in Project Gutenberg are in English, it includes material in over 50 other languages, including Catalan, Chinese, Dutch, Finnish, French, German, Italian"
-    content_list = content.split(" ")
-    word_list = []
-    word_num_dict = {}
-    for i in content_list:
-        if i.isalpha() or (i[:-1].isalpha() and i[-1] in [".", ","]):
-            i = i.replace(".", "")
-            i = i.replace(",", "")
-            word_list.append(i.lower())
 
-    # 计数1：列表先去重
-    # for i in list(set(word_list)):
-    #     word_num_dict[i] = word_list.count(i)
-
-    # 计数2：列表不用去重
-    for i in word_list:
-        word_num_dict[i] = word_num_dict.get(i, 0) + 1
-
-    print(sorted(word_num_dict.items(), key=lambda x: x[1], reverse=True)[:5])
-
-
-def subject_42():
-    """
-        要求：address=beijing&limit=200&title=XiaoMi_Test&time=2018-01-30&username=liulaoshi
-        结果：token=123456title=XiaoMi_Test&time=2018-01-30&limit=200&address=beijing
-            1.去除username参数
-            2.剩余参数按照参数名的ASCII码降序排列
-            3.最前面拼接字符串token=123456
-    """
-    params = "address=beijing&limit=200&title=XiaoMi_Test&time=2018-01-30&username=liulaoshi"
-    params_list = params.split("&")
-
-    for i in range(0, len(params_list)):
-        if params_list[i].startswith("username"):
-            params_list.pop(i)
-    params_list.sort(reverse=True)
-    params_list = "token=123456" + "&".join(params_list)
-    print(params_list)
-
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
+    # maopao()
+    # two_num_add()
+    # find_with_two()
+    # valid_word()
+    # prime_number()
+    # nine_x_nine()
+    # show_even_numbers()
+    # show_sxhs()
+    # remove_duplication()
 
     # subject_33()
     # subject_34()
     # subject_50()
-    # subject_45()
+    subject_45()
     # subject_49()
 
     # senior_func_map()
@@ -292,8 +310,5 @@ if __name__ == "__main__":
     # subject_81()
     # subject_82()
     # subject_44()
-    subject_40()
-    # subject_42()
-
 
 

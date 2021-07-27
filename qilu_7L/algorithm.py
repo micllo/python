@@ -8,7 +8,6 @@ def maopao():
        内层循环次数：索引开始位置 保持第一位 不变
                    索引结束位置 最长为数组下标的倒数第二位（然后依次往前递减）
        内部逻辑：使用内循环下标 进行相邻的两数的比较
-    :return:
     """
     maopao = [3, 5, 2, -2, 6, 9, 1]
     for i in range(len(maopao) - 1):
@@ -52,7 +51,6 @@ def two_num_add():
 def find_with_two():
     """
     二分查找（通过给定的数字，找出对应的下标）
-    :return:
     """
     find = 9
     test = [-2, 1, 2, 3, 5, 6, 9]
@@ -115,28 +113,18 @@ def nine_x_nine():
         外层循环次数：1 ~ 9，共9次
         内层循环测试：索引开始位置：1 固定不变
        （每行的显示） 索引结束位置：从开始位置1不断增加，直到9
-    :return:
     """
 
     for i in range(1, 10):
         for j in range(1, i+1):
-            print(f"{j} x {i} = {j*i}  ", end="")
+            print(f"{j} x {i} = {j*i}", end="\t")
         print("")
 
 
 def show_even_numbers():
     """
-    显示 偶数
-    :return:
+    显示 偶数（ 一行代码 ）
     """
-    # 方法一：
-    show = []
-    for i in range(0, 10):
-        if i % 2 == 0:
-            show.append(i)
-    print(show)
-
-    # 方法二：
     print([i for i in range(0, 10, 2)])
 
 
@@ -144,7 +132,6 @@ def show_sxhs():
     """
     求1000以内的水仙花数
         eg: 1^3 + 5^3 + 3^3 = 153
-    :return:
     """
     for i in range(1, 1000):
         gw = i % 10             # 取模 - 返回除法的余数
@@ -156,23 +143,33 @@ def show_sxhs():
 
 def remove_duplication():
     """
-    列表去重
-    :return:
+    列表去重（三种方式）
+
+        {}.fromkeys(seq, val=None)
+           -> 创建并返回一个新字典，
+              参数1：已序列中的元素创建key（自动去重）
+              参数2：创建value 默认赋值
     """
     a = [1, 2, 3, 2, 5, 1, 6]
 
     # 1
-    b = []
-    for i in range(0, len(a)):
-        if a[i] not in b:
-            b.append(a[i])
-    print(b)
-
-    # 2
     print(list(set(a)))
 
+    # 2
+    tmp_list = []
+    for i in a:
+        if i not in tmp_list:
+            tmp_list.append(i)
+    print(tmp_list)
+
     # 3
-    print(list({}.fromkeys(a).keys()))
+    # tmp_dict = {}
+    # for i in range(0, len(a)):
+    #     if a[i] not in tmp_dict.keys():
+    #         tmp_dict[a[i]] = i
+    # print(tmp_dict.keys())
+
+    print({}.fromkeys(a).keys())
 
 
 if __name__ == '__main__':
