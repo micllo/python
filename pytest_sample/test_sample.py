@@ -53,5 +53,6 @@ if __name__ =="__main__":
     # -m 表示仅执行带有mark标记的case
     # -v 表示显示每个测试函数的执行结果
     # pytest.main(['test_sample.py', '-s', '--html=report.html'])
-    pytest.main(['test_sample.py', '-s', "-m=abc", '--html=report.html'])
+    # pytest.main(['test_sample.py', '-s', "-m=abc", '--html=report.html'])
     # pytest.main(['test_sample.py', '-v', '-s', '--html=report.html'])
+    pytest.main(['test_sample.py::TestClassOne::test_2', '-v', '-s', '--html=report.html'])

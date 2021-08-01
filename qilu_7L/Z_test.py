@@ -298,7 +298,7 @@ if __name__ == '__main__':
     # subject_33()
     # subject_34()
     # subject_50()
-    subject_45()
+    # subject_45()
     # subject_49()
 
     # senior_func_map()
@@ -309,6 +309,7 @@ if __name__ == '__main__':
     # subject_80()
     # subject_81()
     # subject_82()
-    # subject_44()
+    subject_44()
+
 
 

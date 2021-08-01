@@ -1,0 +1,8 @@
+<运行配置>
+    <用例集合>
+        <login-login01 run="1" />
+        <register-register01 run="1" />
+        <register-register02 run="1" />
+        <order-order01 run="0" />
+    </用例集合>
+</运行配置>

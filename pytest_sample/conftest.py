@@ -7,6 +7,8 @@ import pytest
  https://www.osgeo.cn/pytest/reference.html#pytest-fixture
  
 """
+
+
 # 每个使用的方法(函数)都会执行一次
 @pytest.fixture(scope='function')
 def exec_function():
