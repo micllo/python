@@ -1,11 +1,11 @@
 # coding:UTF-8
-import MySQLdb
+import pymysql
 
 
 if __name__ == '__main__':
 
     # 打开数据库连接
-    db = MySQLdb.connect("localhost", "root", "abc123", "test", charset='utf8')
+    db = pymysql.connect(host="localhost", port=3306, user="root", password="abc123", db="test", charset='utf8')
 
     # 使用cursor()方法获取操作游标
     cursor = db.cursor()
@@ -70,10 +70,9 @@ if __name__ == '__main__':
             sex = row[3]
             income = row[4]
             # 打印结果
-            print "fname=%s,lname=%s,age=%s,sex=%s,income=%s" % \
-                  (fname, lname, age, sex, income)
+            print("fname=%s,lname=%s,age=%s,sex=%s,income=%s" % (fname, lname, age, sex, income))
     except:
-        print "Error: unable to fecth data"
+        print("Error: unable to fecth data")
 
     # 关闭数据库连接
     db.close()

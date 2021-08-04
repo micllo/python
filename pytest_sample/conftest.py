@@ -8,11 +8,34 @@ import pytest
  
 """
 
+DATA = {"aaa": 111, "bbb": "222"}
+
+
+# 工厂模式：返回方法
+# 获取全局字典
+@pytest.fixture
+def get_data():
+    def __data(key):
+        return DATA[key]
+    return __data
+
+
+# 设置全局字典
+@pytest.fixture
+def set_data():
+    def __data(key, value):
+        DATA[key] = value
+    return __data
+
 
 # 每个使用的方法(函数)都会执行一次
 @pytest.fixture(scope='function')
-def exec_function():
+def exec_function(request):
     print("\n方法：初始化\n")  # 每个用例执行前的初始化操作
+    print(request)
+    print(type(request))
+    print(request.module)
+    print(request.function)
     yield
     print("\n方法：还原操作\n")  # 每个用例执行后的还原操作
 
@@ -31,6 +54,14 @@ def exec_module():
     print("\npy文件：初始化\n")
     yield
     print("\npy文件：还原操作\n")
+
+
+# 一个会话执行一次
+@pytest.fixture(scope='session')
+def exec_session():
+    print("\n项目：初始化\n")
+    yield
+    print("\n项目：还原操作\n")
 
 
 # 代替 setup 和 teardown，并将两者整合在一起发挥作用
@@ -58,5 +89,5 @@ def test_case_02(B):
     print(B(3, 4))
 
 
-if __name__ =="__main__":
+if __name__ == "__main__":
     pytest.main(["-q", "-s", "-ra", "conftest.py"])

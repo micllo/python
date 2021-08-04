@@ -1,5 +1,5 @@
 import subprocess
-import sys
+import sys, os
 import jsonpath
 
 """
@@ -10,7 +10,23 @@ import jsonpath
 
 
 """
-   【 执行 cmd 命令 】
+    os 对目录或文件操作
+"""
+
+# 获取当前目录的绝对路径
+base = os.path.abspath('.')
+
+# 获取当前目录的file目录下的所有文件列表
+file_list = os.listdir('./file')
+xml_path_list = []
+for n in file_list:
+    if os.path.isfile(f'./file/{n}') and n.endswith('.xml'):
+        xml_path_list.append(os.path.join(base + '/file', n))
+
+# print(xml_path_list)
+
+"""
+   【 subprocess 执行 cmd 命令 】
     Popen()、 call()、check_output() 区别：
     
     Popen(): 异步执行, 返回 subprocess.Popen 对象
@@ -18,13 +34,36 @@ import jsonpath
     check_output(): 同步执行(阻塞)，返回执行结果（bytes类型）
 """
 
-# subprocess.Popen("sleep 5", shell=True)
-# res = subprocess.Popen("ls -la", shell=True)
-# print("----")
-# print(res)
+# sl = subprocess.Popen("sleep 3", shell=True)
+# sl.wait()  # 手动等待
 
-# subprocess.call("sleep 5", shell=True)
-# res_code = subprocess.call("pwd", shell=True)
+cmd = "cat Z_test.py | head -2"
+# cmd = "ls -la & sleep 3"
+
+# 获取结果 方式一：
+# res = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)  # 通过管道符将输出信息传给stdout
+# print(res)
+# print(type(res))
+# print("-------------")
+# res_str = res.stdout.read().decode("gbk")
+# print(res_str)
+# res_list = res_str.split('\n')  # 会等待结果返回后，获取结果信息
+# print(res_list)
+
+# 获取结果 方式二：
+res = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+res_bytes = res.communicate()[0]
+print(res_bytes)
+print(type(res_bytes))
+res_str = res_bytes.decode("utf-8")
+print(res_str)
+print(type(res_str))
+res_list = res_str.split('\n')  # 会等待结果返回后，获取结果信息
+print(res_list)
+
+
+# subprocess.call("sleep 3", shell=True)
+# res_code = subprocess.call("ls -la", stdout=subprocess.PIPE, shell=True)
 # print(res_code)
 
 
@@ -32,6 +71,7 @@ import jsonpath
 # bytes_res = subprocess.check_output(["ls", "-la"])
 # print(bytes_res)
 # print(type(bytes_res))
+
 
 
 """
@@ -73,11 +113,11 @@ data = {"error_code": 200,
           ]
         }
 
-print(jsonpath.jsonpath(data, '$.error_code'))
-print(jsonpath.jsonpath(data, '$..error_code'))  # 递归查询所有key=error_code对应的值
-print(jsonpath.jsonpath(data, '$.event_list[1].title'))
-print(jsonpath.jsonpath(data, '$..title'))
-print()
+# print(jsonpath.jsonpath(data, '$.error_code'))
+# print(jsonpath.jsonpath(data, '$..error_code'))  # 递归查询所有key=error_code对应的值
+# print(jsonpath.jsonpath(data, '$.event_list[1].title'))
+# print(jsonpath.jsonpath(data, '$..title'))
+# print()
 
 
 """
@@ -120,3 +160,27 @@ def json_path_value(data_dict, json_path, is_recur=False, index=None):
 # print(json_path_value(data, "event_list[1].title"))
 # print(json_path_value(data, "title", is_recur=True))
 #
+
+
+"""
+    获取 字符串中的 中文
+
+    str.encode("utf-8")：将 string类型 转换成  byte数组
+    str.decode("utf-8")：将 byte数组 转换成 string类型
+"""
+a = "not 404 found 张三 99 深圳"
+a_list = a.split(" ")
+res = []
+for i in a_list:
+    # 判断 string类型 是否为纯字母（包含：字母、中文）
+    if i.isalpha():
+        # 将 string类型 转换 byte数组 -> b'not'、b'\xe5\xbc\xa0\xe4\xb8\x89'
+        i = i.encode("utf-8")
+        # print(i)
+        # print(type(i))
+        # 判断 byte数组 是否为纯字母（仅包含：字母）
+        if not i.isalpha():
+            res.append(i.decode("utf-8"))
+# print(res)
+
+

@@ -15,8 +15,16 @@ class TestClassOne:
     def test_1(self):
         print('测试用例1')
 
-    def test_2(self, exec_function, exec_class, exec_module):
+    # 这里的 get_data 参数 直接引用了夹具函数的工厂模式（ 在 conftest.py 配置文件 ）
+    def test_2(self, get_data, set_data, exec_function, exec_class, exec_module):
         print('测试用例2')
+        print("*******************")
+        print("aaa -> " + str(get_data("aaa")))
+        print("bbb -> " + get_data("bbb"))
+        set_data("aaa", "micllo")
+        print("aaa -> " + get_data("aaa"))
+        print("bbb -> " + get_data("bbb"))
+        print("*******************")
 
     def test_3(self, exec_function, exec_class, exec_module):
         print('测试用例3')
@@ -29,7 +37,7 @@ class TestClassTwo:
         x = "this"
         assert 'w' in x
 
-    @pytest.mark.skip # 跳过执行
+    @pytest.mark.skip  # 跳过执行
     def test_two(self, exec_function, exec_class, exec_module):
         print('类中的方法2')
         x = "this"
